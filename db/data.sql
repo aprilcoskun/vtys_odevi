@@ -1,6 +1,6 @@
 USE gym
 
-INSERT dbo.Users (tc, password, gender, name, birth_date, phone, user_height, user_weight) VALUES
+INSERT Users (tc, password, gender, name, birth_date, phone, user_height, user_weight) VALUES
 ('10568474115', '234567', 'E', 'Kuzey Er', CAST('1998-06-18' AS Date), '5314256512', 185, 72),
 ('10568474135', '234567', 'E', 'Kuzey Eraslan', CAST('2000-06-18' AS Date), '5364256512', 185, 72),
 ('14326007543', '196743', 'K', 'Ebru Demirci', CAST('1996-03-11' AS Date), '5423040793', 155, 56),
@@ -27,16 +27,16 @@ INSERT dbo.Users (tc, password, gender, name, birth_date, phone, user_height, us
 ('26402347910', '910345', 'K', 'Beril Daracı', CAST('1984-05-12' AS Date), '5312640789', 156, 75),
 ('45621496432', '678912', 'E', 'Basar Basaran', CAST('2000-04-23' AS Date), '5429856743', 183, 74);
 
-INSERT dbo.Trainers (tc, name, birth_date, field) VALUES 
-('11263859548', ' Kerem Güngör', CAST('1990-12-19' AS Date), 'vücut gelistirme'),
-('12378619076', 'Basak Kiral', CAST('1986-03-24' AS Date), 'Kardiyo'),
-('13425604378', 'Kerem Bürsin', CAST('1973-04-27' AS Date), 'Vücüt Gelistirme'),
-('14963629746', ' Hülya Kamçi', CAST('1992-10-16' AS Date), 'zumba'),
-('24563189756', ' Gülsah Günes', CAST('1988-11-10' AS Date), 'plates'),
-('63259842158', ' Sedat Can ', CAST('1985-10-13' AS Date), 'step');
+INSERT Trainers (tc, name, password, birth_date, field) VALUES 
+('11263859548', ' Kerem Güngör','678912', CAST('1990-12-19' AS Date), 'vücut gelistirme'),
+('12378619076', 'Basak Kiral','678912', CAST('1986-03-24' AS Date), 'Kardiyo'),
+('13425604378', 'Kerem Bürsin','678912', CAST('1973-04-27' AS Date), 'Vücüt Gelistirme'),
+('14963629746', ' Hülya Kamçi','678912', CAST('1992-10-16' AS Date), 'zumba'),
+('24563189756', ' Gülsah Günes','678912', CAST('1988-11-10' AS Date), 'plates'),
+('63259842158', ' Sedat Can ','678912', CAST('1985-10-13' AS Date), 'step');
 
-SET IDENTITY_INSERT dbo.Tools ON;
-INSERT dbo.Tools (id, name, usage_time, arrival_date) VALUES
+SET IDENTITY_INSERT Tools ON;
+INSERT Tools (id, name, usage_time, arrival_date) VALUES
 (1, 'kosu bandi', '30 dk', CAST('2019-11-15' AS Date)),
 (2, 'Eliptik Bisiklet', '20 dk', CAST('2019-11-15' AS Date)),
 (3, 'lat Pulldown', '15 dk', CAST('2019-11-15' AS Date)),
@@ -48,11 +48,11 @@ INSERT dbo.Tools (id, name, usage_time, arrival_date) VALUES
 (9, 'dambil', '15 dk', CAST('2019-11-15' AS Date)),
 (14, 'ip', '15 dk', CAST('2019-11-15' AS Date));
 
-SET IDENTITY_INSERT dbo.Tools OFF;
+SET IDENTITY_INSERT Tools OFF;
 
-SET IDENTITY_INSERT dbo.Exercises ON;
+SET IDENTITY_INSERT Exercises ON;
 
-INSERT dbo.Exercises (id, name, description, set_size, tool_id) VALUES
+INSERT Exercises (id, name, description, set_size, tool_id) VALUES
 (3, 'Squat', 'asdasdasd', '3-10', 9),
 (4, 'Barbell Bench Press', 'asdasdasd', '3-15', 3),
 (5, 'Lat Pulldown', 'asdasdasd', '3-12', 3),
@@ -64,6 +64,6 @@ INSERT dbo.Exercises (id, name, description, set_size, tool_id) VALUES
 (13, 'Pilates', 'asdasdasd', '4-5', NULL),
 (14, 'Üst Bacak Kasi', 'asdasdasd', '3-12', 8);
 
-SET IDENTITY_INSERT dbo.Exercises OFF;
+SET IDENTITY_INSERT Exercises OFF;
 
 GO;
