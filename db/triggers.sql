@@ -71,7 +71,7 @@ INSERT INTO DeletedExercises  VALUES (@id, @name, @description, @set_size, @tool
 GO
 
 CREATE Trigger trg_deleted_tools On Tools FOR DELETE AS DECLARE @id (1,1),
-@name] varchar(20) ,
+@name varchar(20) ,
 @usage_time varchar(10),
 @arrival_date date,
 
