@@ -25,7 +25,6 @@ INSERT dbo.Users (tc, password, gender, name, birth_date, phone, user_height, us
 ('23240436750', '364852', 'E', 'Ege Karali', CAST('2000-06-18' AS Date), '5340239314', 186, 78),
 ('25647842354', '450189', 'K', 'Ezgi Kaleli', CAST('2000-07-11' AS Date), '5051237896', 167, 46),
 ('26402347910', '910345', 'K', 'Beril Daracı', CAST('1984-05-12' AS Date), '5312640789', 156, 75),
-
 ('45621496432', '678912', 'E', 'Basar Basaran', CAST('2000-04-23' AS Date), '5429856743', 183, 74);
 
 INSERT dbo.Trainers (tc, name, birth_date, field) VALUES 
