@@ -12,7 +12,7 @@ CREATE TABLE dbo.Calendars(
 
 CREATE TABLE dbo.DeletedUsers(
 	tc PRIMARY KEY char(11) NOT NULL,
-	password varchar(50) NOT NULL,
+	[password] varchar(50) NOT NULL,
 	gender varchar(1) NOT NULL,
 	[name] varchar(50) NOT NULL,
 	birth_date date NOT NULL,
