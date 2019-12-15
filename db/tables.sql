@@ -56,6 +56,13 @@ CREATE TABLE dbo.Users(
 	other_measurements varchar
 );
 
+CREATE TABLE dbo.DeletedTrainers(
+	tc char(11) PRIMARY KEY NOT NULL,
+	[name] varchar(20) NOT NULL,
+	birth_date date NOT NULL,
+	field varchar(40) NOY NULL,
+);
+
 /*CONSTRAINT ve FOREIGN KEY'ler*/
 ALTER TABLE
 	dbo.Tools
