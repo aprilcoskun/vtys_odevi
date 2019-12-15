@@ -63,6 +63,30 @@ CREATE TABLE dbo.DeletedTrainers(
 	field varchar(40) NOY NULL,
 );
 
+CREATE TABLE dbo.DeletedCalendars(
+	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+	user_tc char(11) NULL,
+	trainer_tc char(11) NULL,
+	weekday varchar(15) NOT NULL,
+	startTime time NOT NULL,
+	finishTime time NOT NULL
+);
+
+CREATE TABLE dbo.DeletedExercises(
+	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+	[name] varchar(20) NOT NULL,
+	[description] varchar(150) NOT NULL,
+	set_size varchar(15) NOT NULL,
+	tool_id int
+);
+
+CREATE TABLE dbo.DeletedTools(
+	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+	[name] varchar(20) NOT NULL,
+	usage_time varchar(10) NOT NULL,
+	arrival_date date
+);
+
 /*CONSTRAINT ve FOREIGN KEY'ler*/
 ALTER TABLE
 	dbo.Tools
