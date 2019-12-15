@@ -81,4 +81,4 @@ SELECT @description = del.decription FROM DELETED del;
 SELECT @set_size = del.set_size FROM DELETED del;
 
 INSERT INTO DeletedTools  VALUES (@id, @name, @description, @set_size,)
-GOs
+GO
