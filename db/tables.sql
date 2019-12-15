@@ -40,6 +40,7 @@ CREATE TABLE dbo.Tools(
 CREATE TABLE dbo.Trainers(
 	tc char(11) PRIMARY KEY NOT NULL,
 	[name] varchar(20) NOT NULL,
+	[password] varchar(50) NOT NULL,
 	birth_date date NOT NULL,
 	field varchar(40) NOT NULL
 );
@@ -59,6 +60,7 @@ CREATE TABLE dbo.Users(
 CREATE TABLE dbo.DeletedTrainers(
 	tc char(11) PRIMARY KEY NOT NULL,
 	[name] varchar(20) NOT NULL,
+	[password] varchar(50) NOT NULL,
 	birth_date date NOT NULL,
 	field varchar(40) NOY NULL,
 );
