@@ -1,0 +1,26 @@
+{
+  "name": "vtys_odevi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aprilcoskun/vtys_odevi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aprilcoskun/vtys_odevi/issues"
+  },
+  "homepage": "https://github.com/aprilcoskun/vtys_odevi#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "morgan": "^1.9.1",
+    "mssql": "^6.0.1"
+  }
+}

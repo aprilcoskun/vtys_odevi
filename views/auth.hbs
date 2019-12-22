@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
+  <title>Gym Auth</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+  />
+  <script
+    defer
+    src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+  ></script>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"
+  ></script>
+</head>
+
+<body>
+  <div class="section">
+    <div class="columns">
+      <div class="column"></div>
+      <div class="column">
+        <div class="box">
+          <h1 class="title">Gym</h1>
+          <h2 class="subtitle">Kullanıcı Girişi</h2>
+
+          <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input
+                class="input is-small"
+                type="text"
+                id="tc"
+                placeholder="TC Kimlik No"
+              />
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input
+                class="input is-small"
+                type="password"
+                id="password"
+                placeholder="Şifre"
+              />
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+              <a
+                class="button is-outlined is-info is-small"
+                href="javascript:login()"
+              >
+                <span class="icon">
+                  <i class="fas fa-sign-in-alt"></i>
+                </span>
+                <span>Giriş</span>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="column"></div>
+    </div>
+  </div>
+  <script>
+    function login() {
+      const tc = $('#tc').val();
+      const password = $('#password').val();
+      $.ajax({
+        url: '/auth/login',
+        data: JSON.stringify({ tc, password }),
+        contentType: 'application/json',
+        type: 'POST',
+        success: function (data, status, xhr) {
+          location.href = '/';
+        },
+        error: function (data, status, err) {
+          console.log(data.status)
+          if(data.status === 401) {
+            alert('Wrong Password');
+          } else if(data.status === 404) {
+            alert('User not Found')
+          }
+        },
+      });
+
+    }
+  </script>
+</body>
+</html>
