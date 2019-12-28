@@ -4,6 +4,26 @@
       <h1 class="title">
         Personeller
       </h1>
+      <table class="table is-hoverable">
+        <thead>
+          <tr>
+            <th>T.C</th>
+            <th>Ad Soyad</th>
+            <th>Doğum Tarihi</th>
+            <th>Alan</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each trainers}}
+          <tr class="pointy">
+            <td>{{tc}}</td>
+            <td>{{name}}</td>
+            <td>{{birth_date}}</td>
+            <td>{{field}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
   </section>
 </div>

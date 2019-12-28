@@ -4,6 +4,24 @@
       <h1 class="title">
         Envanter
       </h1>
+      <table class="table is-hoverable">
+        <thead>
+          <tr>
+            <th>Ad</th>
+            <th>Kullanma Süresi</th>
+            <th>Geliş Zamanı</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each tools}}
+          <tr class="pointy">
+            <td>this.name</td>
+            <td>this.arrival_date</td>
+            <td>this.usage_time</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
   </section>
 </div>

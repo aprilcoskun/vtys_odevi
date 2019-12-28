@@ -17,7 +17,13 @@
     src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
   ></script>
   <style>
-    .navbar { box-shadow: 0px .75px #888888; }
+    .navbar {
+      box-shadow: 0px .75px #888888;
+    }
+
+    .pointy {
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -26,7 +32,7 @@
   <nav class="navbar is-fixed-top">
     <div class="navbar-brand">
       <a class="navbar-item">
-        <img src="http://134.209.251.92:3001/furkan" />
+        <img src="https://avatar.alpcoskun.com/furkan" />
       </a>
       <a
         role="button"
@@ -44,67 +50,69 @@
       class="navbar-menu is-toggable"
     >
       <div class="navbar-start">
+        {{#if isAdmin}}
         <a
-          class="navbar-item is-active"
+          class="navbar-item {{#if isMain}}is-active{{/if}}"
           href="/"
         >
           <span class="icon"><i class="fas fa-columns"></i></span>
           <span>Panel</span>
         </a>
-
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isUsers}}is-active{{/if}}"
           href="/users"
         >
           <span class="icon"><i class="fas fa-user"></i></span>
           <span>Müşteriler</span>
         </a>
-
+        {{/if}}
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isTrainers}}is-active{{/if}}"
           href="/trainers"
         >
           <span class="icon"><i class="fas fa-user-circle"></i></span>
-          <span>Personeller</span>
+          <span>Eğitimciler</span>
         </a>
 
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isExercises}}is-active{{/if}}"
           href="/exercises"
         >
           <span class="icon"><i class="far fa-calendar"></i></span>
           <span>Egzersiz Programları</span>
         </a>
-
+        {{#unless isAdmin}}
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isCalendar}}is-active{{/if}}"
           href="/calendar"
         >
           <span class="icon"><i class="far fa-calendar-alt"></i></span>
           <span>Takvim</span>
         </a>
+        {{/unless}}
+        {{#if isAdmin}}
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isInventory}}is-active{{/if}}"
           href="/inventory"
         >
           <span class="icon"><i class="fas fa-toolbox"></i></span>
           <span>Envanter</span>
         </a>
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isProfile}}is-active{{/if}}"
           href="/profile"
         >
           <span class="icon"><i class="fas fa-user-circle"></i></span>
           <span>Profil</span>
         </a>
-
         <a
-          class="navbar-item"
+          class="navbar-item {{#if isSettings}}is-active{{/if}}"
           href="/settings"
         >
           <span class="icon"><i class="fas fa-cog"></i></span>
           <span>Ayarlar</span>
         </a>
+        {{/if}}
       </div>
 
       <div class="navbar-end">

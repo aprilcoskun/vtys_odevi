@@ -2,8 +2,39 @@
   <section class="section columns">
     <div class="column">
       <h1 class="title">
-        Müşteriler
+        {{@exphbs.cache}}
       </h1>
+      <table class="table is-hoverable">
+        <thead>
+          <tr>
+            <th>T.C</th>
+            <th>Ad Soyad</th>
+            <th>Telefon</th>
+            <th>Cinsiyet</th>
+            <th>Doğum Tarihi</th>
+            <th>Boy</th>
+            <th>Kilo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users}}
+          <tr class="pointy" onclick="javascript:openUser({{json}})">
+            <td>{{tc}}</td>
+            <td>{{name}}</td>
+            <td>{{phone}}</td>
+            <td>{{gender}}</td>
+            <td>{{birth_date}}</td>
+            <td>{{user_height}}</td>
+            <td>{{user_weight}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
   </section>
 </div>
+<script>
+  function openUser(user) {
+    console.log(user);
+  }
+</script>

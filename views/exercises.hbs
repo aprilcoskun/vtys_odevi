@@ -4,6 +4,26 @@
       <h1 class="title">
         Egzersizler
       </h1>
+      <table class="table is-hoverable">
+        <thead>
+          <tr>
+            <th>Ad</th>
+            <th>Açıklama</th>
+            <th>Set Sayısı</th>
+            <th>Aletler</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each exercises}}
+          <tr class="pointy">
+            <td>this.name</td>
+            <td>this.description</td>
+            <td>this.set_size</td>
+            <td>this.tool_id</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
   </section>
 </div>

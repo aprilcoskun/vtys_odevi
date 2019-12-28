@@ -36,8 +36,11 @@ app.engine(
   'hbs',
   expressHandlebars({
     defaultLayout: 'layout',
+    layoutsDir: `./views`,
     extname: '.hbs',
-    layoutsDir: `./views`
+    helpers: {
+      json: function (p) { return JSON.stringify(this);}
+    }
   })
 );
 
@@ -51,7 +54,7 @@ app.use('/exercises', exercisesRoute);
 app.use('/inventory', inventoryRoute);
 
 app.get('/', async function(req, res) {
-  res.render('index');
+  res.render('index', { isAdmin: req.cookies['userType'] === 'trainer', isMain: true });
 });
 
 app.listen(3000);
