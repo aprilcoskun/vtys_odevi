@@ -38,23 +38,6 @@ SELECT @field = del.field FROM DELETED del;
 INSERT INTO gym.dbo.DeletedTrainers  VALUES (@tc, @name, @password, @birth_date, @field)
 GO
 
-CREATE Trigger trg_deleted_calendars On gym.dbo.Calendars FOR DELETE AS DECLARE @id int,
-@user_tc char(11),
-@trainer_tc char(11),
-@weekday varchar(15),
-@startTime time,
-@finishTime time;
-
-SELECT @id = del.id FROM DELETED del;
-SELECT @user_tc = del.user_tc FROM DELETED del;
-SELECT @trainer_tc = del.trainer_tc FROM DELETED del;
-SELECT @weekday = del.weekday FROM DELETED del;
-SELECT @startTime = del.startTime FROM DELETED del;
-SELECT @finishTime = finishTime FROM DELETED del;
-
-INSERT INTO gym.dbo.DeletedCalendars  VALUES (@id, @user_tc, @trainer_tc, @startTime, @finishTime)
-GO
-
 CREATE Trigger trg_deleted_exercises On gym.dbo.Exercises FOR DELETE AS DECLARE 
 @name varchar(20),
 @description varchar(150),
