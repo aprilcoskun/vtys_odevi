@@ -39,7 +39,17 @@ app.engine(
     layoutsDir: `./views`,
     extname: '.hbs',
     helpers: {
-      json: function (p) { return JSON.stringify(this);}
+      json: function (p) { return JSON.stringify(this);},
+      calculateAge: function getAge() {
+        const today = new Date();
+        const birthDate = new Date(this.birth_date);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const month = today.getMonth() - birthDate.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+      }
     }
   })
 );

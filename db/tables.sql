@@ -3,12 +3,16 @@ USE gym;
 /*Tablolar*/
 CREATE TABLE Calendars(
 	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
-	user_tc char(11) NULL,
 	trainer_tc char(11) NULL,
 	weekday varchar(15) NOT NULL,
 	startTime time NOT NULL,
 	finishTime time NOT NULL
 );
+
+CREATE TABLE UserCalendar(
+	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+	user_tc char(11) NULL
+}
 
 CREATE TABLE DeletedUsers(
 	tc char(11) PRIMARY KEY NOT NULL,

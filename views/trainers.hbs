@@ -15,10 +15,10 @@
         </thead>
         <tbody>
           {{#each trainers}}
-          <tr class="pointy">
+          <tr class="pointy"  onclick="javascript:openModal({{json}})">
             <td>{{tc}}</td>
             <td>{{name}}</td>
-            <td>{{birth_date}}</td>
+            <td>{{calculateAge}}</td>
             <td>{{field}}</td>
           </tr>
           {{/each}}
@@ -27,3 +27,8 @@
     </div>
   </section>
 </div>
+<script>
+  function openModal(user) {
+    console.log(user);
+  }
+</script>
