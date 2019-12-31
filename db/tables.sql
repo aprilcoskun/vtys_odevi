@@ -19,7 +19,8 @@ CREATE TABLE Calendars(
 
 CREATE TABLE UserCalendar(
 	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
-	calendar_id int NOT NULL user_tc char(11) NOT NULL
+	calendar_id int NOT NULL,
+	 user_tc char(11) NOT NULL
 );
 
 CREATE TABLE DeletedUsers(
