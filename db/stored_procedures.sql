@@ -35,3 +35,9 @@ Create Procedure sp_load_backup
   	FROM  DISK = N'/home/gym-backup.bak'
   	WITH  FILE = 1, REPLACE
   Go
+
+    
+Create Procedure sp_main_page
+As
+	Select * From UserActivity
+Go

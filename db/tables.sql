@@ -1,7 +1,7 @@
 USE gym;
 
 /*Tablolar*/
-CREATE TABLE Activity(
+CREATE TABLE UserActivity(
 	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
 	user_tc char(11) NULL,
 	trainer_tc char(11) NULL,
