@@ -11,8 +11,9 @@ CREATE TABLE Calendars(
 
 CREATE TABLE UserCalendar(
 	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
-	user_tc char(11) NULL
-}
+	calendar_id int NOT NULL
+	user_tc char(11) NOT NULL
+);
 
 CREATE TABLE DeletedUsers(
 	tc char(11) PRIMARY KEY NOT NULL,

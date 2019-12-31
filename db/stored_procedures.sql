@@ -24,3 +24,14 @@ Begin
 return 0
 End
 Go
+
+Create Procedure sp_load_backup
+  As
+   ALTER DATABASE gym
+   SET SINGLE_USER
+   WITH ROLLBACK IMMEDIATE
+
+  	RESTORE DATABASE [gym]
+  	FROM  DISK = N'/home/gym-backup.bak'
+  	WITH  FILE = 1, REPLACE
+  Go
