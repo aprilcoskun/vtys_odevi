@@ -139,7 +139,6 @@
   id="new-popup"
   class="popup mfp-hide"
 >
-  <br>
   <div class="field">
     <label class="label">TC Kimlik No</label>
     <div class="control">
@@ -243,14 +242,14 @@
   function saveUser() {
     // opens loader
     (new ldLoader({ root: ".full" })).on();
-    
+
     var tc = $('#tc').val();
     var name = $('#name').val();
     var phone = $('#phone').val();
     var gender = $('#gender').val();
     var user_height = $('#user_height').val();
     var user_weight = $('#user_weight').val();
-
+    var user = { tc, name, phone, gender, user_height, user_weight };
     console.log(currentUser);
   }
   function saveNewUser() { }

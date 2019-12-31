@@ -1,6 +1,14 @@
 USE gym;
 
 /*Tablolar*/
+CREATE TABLE Activity(
+	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
+	user_tc char(11) NULL,
+	trainer_tc char(11) NULL,
+	[timestamp] datetime NOT NULL,
+	[type] varchar(50) NOT NULL,
+);
+
 CREATE TABLE Calendars(
 	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
 	trainer_tc char(11) NULL,
@@ -11,8 +19,7 @@ CREATE TABLE Calendars(
 
 CREATE TABLE UserCalendar(
 	id int PRIMARY KEY IDENTITY(1, 1) NOT NULL,
-	calendar_id int NOT NULL
-	user_tc char(11) NOT NULL
+	calendar_id int NOT NULL user_tc char(11) NOT NULL
 );
 
 CREATE TABLE DeletedUsers(
@@ -171,4 +178,9 @@ ADD
 GO
 ALTER TABLE
 	Users CHECK CONSTRAINT ck_tc
+GO
+ALTER TABLE
+	Activity
+ADD
+	CONSTRAINT ck_timestamp DEFAULT GETDATE() FOR [timestamp]
 GO

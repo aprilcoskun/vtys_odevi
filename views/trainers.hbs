@@ -1,9 +1,20 @@
 <div class="container">
   <section class="section columns">
     <div class="column">
-      <h1 class="title">
-        Personeller
-      </h1>
+      <a
+        id="new-user"
+        class="button is-outlined is-info"
+        data-mfp-src="#new-popup"
+        href="javascript:openNewTrainerModal()"
+      >
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>Yeni Personel Ekle</span>
+      </a>
+      <br>
+      <br>
+      <br>
       <table class="table is-hoverable">
         <thead>
           <tr>
@@ -15,7 +26,10 @@
         </thead>
         <tbody>
           {{#each trainers}}
-          <tr class="pointy"  onclick="javascript:openModal({{json}})">
+          <tr
+            class="pointy"
+            onclick="javascript:openModal({{json}})"
+          >
             <td>{{tc}}</td>
             <td>{{name}}</td>
             <td>{{calculateAge}}</td>
@@ -27,8 +41,23 @@
     </div>
   </section>
 </div>
+<div
+  id="popup"
+  class="popup mfp-hide"
+>
+</div>
+<div
+  id="new-popup"
+  class="popup mfp-hide"
+>
+</div>
 <script>
+  $('#new-user').magnificPopup({ type: 'inline', midClick: true });
+  $('.pointy').magnificPopup({ type: 'inline', midClick: true });
   function openModal(user) {
     console.log(user);
+  }
+  function openNewTrainerModal() {
+
   }
 </script>
