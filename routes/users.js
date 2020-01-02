@@ -105,6 +105,12 @@ router.put('/:tc', async function(req, res) {
 router.delete('/:tc', async function(req, res) {
   try {
     const result = await mssql.query`delete from users where tc=${req.params.tc}`;
+    const act = `Kullanıcı Silindi (tc:${req.params.tc})` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
     res.json(result);
   } catch (error) {
     console.error(error);

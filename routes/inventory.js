@@ -30,6 +30,12 @@ router.post('/', async function(req, res) {
     const { name, usage_time } = req.body;
     const result = await mssql.query`insert tools (name, usage_time) values (${name}, ${usage_time})`;
     res.json(result);
+    const act = `Envantere Yeni Eşya eklendi(${name})` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send(error);
@@ -61,6 +67,12 @@ router.delete('/:id', async function(req, res) {
   try {
     const result = await mssql.query`delete from tools where id=${req.params.id}`;
     res.json(result);
+    const act = `Envanterden Eşya Silindi` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send(error);

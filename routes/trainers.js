@@ -64,6 +64,12 @@ router.delete('/:tc', async function(req, res) {
   try {
     const result = await mssql.query`delete from trainers where tc=${req.params.tc}`;
     res.json(result);
+    const act = `Personel Silindi (tc:${req.params.tc})` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send(error);
