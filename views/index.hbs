@@ -4,7 +4,7 @@
       <h2 class="title">
         Anasayfa
       </h2>
-      {{!-- <table class="table is-bordered is-fullwidth">
+      <table class="table is-bordered is-fullwidth">
         <thead>
           <tr>
             <th>Ad Soyad</th>
@@ -14,16 +14,16 @@
           </tr>
         </thead>
         <tbody>
-          {{#each tools}}
+          {{#each activities}}
           <tr>
             <td>{{name}}</td>
-            <td>{{calcUserType}}</td>
-            <td>{{calcArrivalDate}}</td>
-            <td>{{usage_time}}</td>
+            <td>{{userType}}</td>
+            <td>{{type}}</td>
+            <td>{{timestamp}}</td>
           </tr>
           {{/each}}
         </tbody>
-      </table> --}}
+      </table>
     </div>
   </section>
 </div>

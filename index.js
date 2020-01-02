@@ -40,17 +40,27 @@ app.engine(
     layoutsDir: `./views`,
     extname: '.hbs',
     helpers: {
-      json: function () { return JSON.stringify(this);},
-      _gender: function () { return this.gender === 'E' ? 'Erkek' : 'Kadın' },
-      calcArrivalDate: function () { 
-        return new Date(this.arrival_date).toDateString()
-       },
+      json: function() {
+        return JSON.stringify(this);
+      },
+      userType: function () {
+        return this.trainer_tc ? 'Personel' : 'Kullanıcı';
+      },
+      _gender: function() {
+        return this.gender === 'E' ? 'Erkek' : 'Kadın';
+      },
+      calcArrivalDate: function() {
+        return new Date(this.arrival_date).toDateString();
+      },
       calculateAge: function getAge() {
         const today = new Date();
         const birthDate = new Date(this.birth_date);
         let age = today.getFullYear() - birthDate.getFullYear();
         const month = today.getMonth() - birthDate.getMonth();
-        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+        if (
+          month < 0 ||
+          (month === 0 && today.getDate() < birthDate.getDate())
+        ) {
           age--;
         }
         return age;
@@ -70,9 +80,17 @@ app.use('/exercises', exercisesRoute);
 app.use('/inventory', inventoryRoute);
 
 app.get('/', async function(req, res) {
-  const result = await mssql.query`exec sp_main_page`;
-  console.log(result);
-  res.render('index', { isAdmin: req.cookies['userType'] === 'trainer', isMain: true });
+  const result = await mssql.query`select * from useractivity 
+  left outer join users
+  on users.tc=useractivity.user_tc 
+  left outer join trainers
+  on trainers.tc=useractivity.trainer_tc`;
+  
+  res.render('index', {
+    isAdmin: req.cookies['userType'] === 'trainer',
+    isMain: true,
+    activities: result.recordset
+  });
 });
 
 app.listen(3000);

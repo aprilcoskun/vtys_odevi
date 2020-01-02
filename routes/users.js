@@ -35,8 +35,6 @@ router.get('/profile', async function(req, res) {
   });
 });
 
-const insertText =
-  'insert users (tc, password, gender, name, birth_date, phone, user_height, user_weight)';
 router.post('/', async function(req, res) {
   try {
     const {
@@ -60,8 +58,12 @@ router.post('/', async function(req, res) {
     .input('other_measurements', '')
     const exec = await query.execute('sp_insert_users');
     if(exec.returnValue === 0) throw new Error('returned 0');
-
-    // const result = await mssql.query`${insertText} (${tc},${password},${gender},${name},${birth_date},${phone},${user_height},${user_weight});`;
+    const act = `Yeni Kullanıcı Eklendi(${name})` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
     res.json(result);
   } catch (error) {
     console.error(error);
@@ -86,6 +88,12 @@ router.put('/:tc', async function(req, res) {
       result = await mssql.query`update users set tc=${newTc}, gender=${gender}, password=${password}, name=${name}, phone=${phone}, user_height=${user_height}, user_weight=${user_weight} where tc=${tc}`;
     } else {
     result = await mssql.query`update users set tc=${newTc}, gender=${gender}, name=${name}, phone=${phone}, user_height=${user_height}, user_weight=${user_weight} where tc=${tc}`;
+    }
+    const act = `Kullanıcı Bilgileri Degistirildi(${name})` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
     }
     res.json(result);
   } catch (error) {

@@ -29,6 +29,12 @@ router.post('/', async function(req, res) {
   try {
     const { tc, password, field, name, birth_date } = req.body;
     const result = await mssql.query`insert trainers(tc, name, password, field, birth_date) values(${tc}, ${name}, ${password}, ${field}, ${birth_date})`;
+    const act = `Yeni Personel Eklendi(${name})`
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
     res.json(result);
   } catch (error) {
     console.error(error);
@@ -41,6 +47,12 @@ router.put('/:tc', async function(req, res) {
     const { tc } = req.params;
     const { tc: newTc, password, field, name } = req.body;
     const result = await mssql.query`update trainers set tc=${newTc}, password=${password}, field=${field}, name=${name} where tc= ${tc}`;
+    const act = `Personel Bilgileri Degistirildi(${name})` 
+    if(req.cookies['userType'] === 'trainer') {
+      await mssql.query`insert useractivity(trainer_tc, type) values (${req.cookies['tc']}, ${act})`
+    } else {
+      await mssql.query`insert useractivity(user_tc, type) values (${req.cookies['tc']}, ${act})`
+    }
     res.json(result);
   } catch (error) {
     console.error(error);
