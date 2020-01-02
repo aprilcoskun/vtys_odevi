@@ -1,34 +1,61 @@
 <div class="container">
   <section class="section columns">
     <div class="column">
+      {{#if isAdmin}}
       <a
-        id="new-user"
+        id="new-trainer"
         class="button is-outlined is-info"
         data-mfp-src="#new-popup"
-        href="javascript:openNewTrainerModal()"
       >
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>
         <span>Yeni Personel Ekle</span>
       </a>
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:exportPdf()"
+      >
+        <span>PDF olarak Kaydet</span>
+      </a>
+      {{/if}}
       <br>
       <br>
-      <br>
-      <table class="table is-hoverable">
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            id="search"
+            class="input"
+            type="search"
+            placeholder="İsime göre filtreleyin"
+          >
+        </div>
+        <div class="control">
+          <a
+            class="button is-info"
+            href="javascript:search()"
+          >
+            Filtrele
+          </a>
+        </div>
+      </div>
+      <table class="table {{#if isAdmin}}is-hoverable{{/if}} is-bordered is-fullwidth">
         <thead>
           <tr>
             <th>T.C</th>
             <th>Ad Soyad</th>
-            <th>Doğum Tarihi</th>
+            <th>Yaş</th>
             <th>Alan</th>
           </tr>
         </thead>
         <tbody>
           {{#each trainers}}
           <tr
+            {{#if isAdmin}}
             class="pointy"
+            data-mfp-src="#popup"
             onclick="javascript:openModal({{json}})"
+            {{/if}}
           >
             <td>{{tc}}</td>
             <td>{{name}}</td>
@@ -41,23 +68,227 @@
     </div>
   </section>
 </div>
+{{#if isAdmin}}
 <div
   id="popup"
   class="popup mfp-hide"
 >
+  <div class="field">
+    <label class="label">TC Kimlik No</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="tc"
+        placeholder="TC Kimlik No"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Ad Soyad</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="name"
+        placeholder="Ad Soyad"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Şifre</label>
+    <div class="control">
+      <input
+        class="input"
+        type="password"
+        id="password"
+        placeholder="Şifre"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Alan</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="field"
+        placeholder="Alan"
+      />
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column is-9">
+      <div class="field">
+        <div class="control">
+          <a
+            class="button is-outlined is-primary"
+            href="javascript:saveTrainer()"
+          >
+            <span>Kaydet</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        <div class="control">
+          <a
+            class="button is-outlined is-danger"
+            href="javascript:deleteTrainer()"
+          >
+            <span>Kullanıcıyı Sil</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div
   id="new-popup"
   class="popup mfp-hide"
 >
+  <div class="field">
+    <label class="label">TC Kimlik No</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-tc"
+        placeholder="TC Kimlik No"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Ad Soyad</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-name"
+        placeholder="Ad Soyad"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Şifre</label>
+    <div class="control">
+      <input
+        class="input"
+        type="password"
+        id="new-password"
+        placeholder="Şifre"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Doğum Tarihi</label>
+    <div class="control">
+      <input
+        class="input"
+        type="date"
+        id="new-birth-date"
+      >
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Alan</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-field"
+        placeholder="Alan"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:saveNewTrainer()"
+      >
+        <span>Kaydet</span>
+      </a>
+    </div>
+  </div>
 </div>
+{{/if}}
 <script>
-  $('#new-user').magnificPopup({ type: 'inline', midClick: true });
+  var currentTrainer = {};
+  $('#new-trainer').magnificPopup({ type: 'inline', midClick: true });
   $('.pointy').magnificPopup({ type: 'inline', midClick: true });
-  function openModal(user) {
-    console.log(user);
+  function openModal(trainer) {
+    currentTrainer = trainer;
+    $('#tc').val(trainer.tc);
+    $('#name').val(trainer.name);
+    $('#field').val(trainer.field);
+    $('#password').val(trainer.password);
   }
-  function openNewTrainerModal() {
 
+  function saveTrainer() {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+
+    var tc = $('#tc').val();
+    var name = $('#name').val();
+    var field = $('#field').val();
+    var password = $('#password').val();
+    var trainer = { tc, password, name, field };
+    $.ajax({
+      url: '/trainers/' + currentTrainer.tc,
+      data: JSON.stringify(trainer),
+      contentType: 'application/json',
+      type: 'PUT',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+  function saveNewTrainer() {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+    var tc = $('#new-tc').val();
+    var name = $('#new-name').val();
+    var field = $('#new-field').val();
+    var password = $('#new-password').val();
+    var birth_date = $('#new-birth-date').val();
+    var trainer = { tc, name, password, birth_date, field };
+    $.ajax({
+      url: '/trainers',
+      data: JSON.stringify(trainer),
+      contentType: 'application/json',
+      type: 'POST',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+  function exportPdf() {
+    html2pdf(
+      $('.table').get(0),
+      {
+        margin: 4,
+        filename: 'trainers.pdf',
+        html2canvas: { dpi: 192 },
+        jsPDF: { orientation: 'landscape' }
+      }
+    );
+  }
+  function search() {
+    var name = $('#search').val();
+    return location.href = '/trainers/searchByName/' + name;
+  }
+
+  function deleteTrainer() {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+    $.ajax({
+      url: '/trainers/' + currentTrainer.tc,
+      type: 'DELETE',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
   }
 </script>

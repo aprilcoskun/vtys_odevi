@@ -32,12 +32,17 @@ Create Procedure sp_load_backup
    WITH ROLLBACK IMMEDIATE
 
   	RESTORE DATABASE [gym]
-  	FROM  DISK = N'/home/gym-backup.bak'
+  	FROM  DISK = N'/home/gym_backup.bak'
   	WITH  FILE = 1, REPLACE
   Go
 
     
 Create Procedure sp_main_page
 As
-	Select * From UserActivity
+	Select * From UserActivity for json path
+Go
+
+Create Procedure sp_get_users
+As
+	Select * From User
 Go

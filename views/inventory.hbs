@@ -1,10 +1,43 @@
 <div class="container">
   <section class="section columns">
     <div class="column">
-      <h1 class="title">
-        Envanter
-      </h1>
-      <table class="table is-hoverable">
+      <a
+        id="new-tool"
+        class="button is-outlined is-info"
+        data-mfp-src="#new-popup"
+      >
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>Yeni Tool Ekle</span>
+      </a>
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:exportPdf()"
+      >
+        <span>PDF olarak Kaydet</span>
+      </a>
+      <br>
+      <br>
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            id="search"
+            class="input"
+            type="search"
+            placeholder="İsime göre filtreleyin"
+          >
+        </div>
+        <div class="control">
+          <a
+            class="button is-info"
+            href="javascript:search()"
+          >
+            Filtrele
+          </a>
+        </div>
+      </div>
+      <table class="table is-bordered is-hoverable is-fullwidth">
         <thead>
           <tr>
             <th>Ad</th>
@@ -14,19 +47,147 @@
         </thead>
         <tbody>
           {{#each tools}}
-          <tr class="pointy">
-            <td>name</td>
-            <td>arrival_date</td>
-            <td>usage_time</td>
+          <tr class="pointy" onclick="javascript:openModal({{json}})">
+            <td>{{name}}</td>
+            <td>{{calcArrivalDate}}</td>
+            <td>{{usage_time}}</td>
           </tr>
           {{/each}}
         </tbody>
       </table>
     </div>
   </section>
+  <div
+    class="tile"
+    style="padding: 20px;"
+  >
+    <div class="file">
+      <label class="file-label">
+        <input
+          class="file-input"
+          type="file"
+        >
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            JSON Dosyası seçiniz
+          </span>
+        </span>
+      </label>
+    </div>
+    <a
+      class="button is-warning"
+      style="margin-left: 15px;"
+      href="javascript:importTools()"
+    >import JSON</a>​
+  </div>
+</div>
+<div
+  id="new-popup"
+  class="popup mfp-hide"
+>
+  <div class="field">
+    <label class="label">Ad</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-name"
+        placeholder="Ad"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Kullanım Süresi(dk)</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-usage_time"
+        placeholder="Kullanım Süresi"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:saveNewTool()"
+      >
+        <span>Kaydet</span>
+      </a>
+    </div>
+  </div>
 </div>
 <script>
-  function openModal(user) {
-    console.log(user);
+  $('#new-tool').magnificPopup({ type: 'inline', midClick: true });
+
+  function openModal(tool) {
+    (new ldLoader({ root: ".full" })).on();
+    $.ajax({
+      url: '/inventory/' + tool.id,
+      type: 'DELETE',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
   }
+
+  function importTools() {
+    const file = document.querySelector('input[type=file]').files[0];
+    const reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = (evt) => {
+      try {
+        //const data = JSON.parse(evt.target.result);
+        (new ldLoader({ root: ".full" })).on();
+        $.ajax({
+          url: '/inventory/import',
+          data: evt.target.result,
+          contentType: 'application/json',
+          type: 'POST',
+          success: function (data, status, xhr) {
+            location.reload();
+          }
+        });
+      } catch (error) {
+        alert(error);
+      }
+
+    };
+  }
+
+  function saveNewTool() {
+    var name = $('#new-name').val();
+    var usage_time = $('#new-usage_time').val();
+    var tool = { name, usage_time };
+    $.ajax({
+      url: '/inventory',
+      data: JSON.stringify(tool),
+      contentType: 'application/json',
+      type: 'POST',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+
+  function exportPdf() {
+    html2pdf(
+      $('.table').get(0),
+      {
+        margin: 4,
+        filename: 'tools.pdf',
+        html2canvas: { dpi: 192 },
+        jsPDF: { orientation: 'landscape' }
+      }
+    );
+  }
+  function search() {
+    var name = $('#search').val();
+    return location.href = '/inventory/searchByName/' + name;
+  }
+
 </script>

@@ -1,0 +1,189 @@
+<div class="container">
+  <section class="section columns is-centered">
+    <div class="column is-half">
+      <nav class="panel is-primary">
+        {{#with user}}
+        <p class="panel-heading">
+          {{name}}
+        </p>
+        <a class="panel-block">
+          <span class="panel-icon">
+            <i class="fas fa-id-card"></i>
+          </span>
+          {{tc}}
+        </a>
+        <a class="panel-block">
+          <span class="panel-icon">
+            <i class="fas fa-venus-mars"></i>
+          </span>
+          {{_gender}}
+        </a>
+        <a class="panel-block">
+          <span class="panel-icon">
+            <i class="fas fa-calendar"></i>
+          </span>
+          {{calculateAge}}
+        </a>
+        <a class="panel-block">
+          <span class="panel-icon">
+            <i class="fas fa-text-height"></i>
+          </span>
+          {{user_height}}
+        </a>
+        <a class="panel-block">
+          <span class="panel-icon">
+            <i class="fas fa-weight"></i>
+          </span>
+          {{user_weight}}
+        </a>
+        <a class="panel-block">
+          <span class="panel-icon">
+            <i class="fas fa-phone"></i>
+          </span>
+          {{phone}}
+        </a>
+
+        <div class="panel-block">
+          <a
+            id="pop"
+            class="button is-link is-outlined is-fullwidth"
+            data-mfp-src="#popup"
+          >
+            Düzenle
+          </a>
+        </div>
+      </nav>
+    </div>
+  </section>
+</div>
+<div
+  id="popup"
+  class="popup mfp-hide"
+>
+  <div class="field">
+    <label class="label">TC Kimlik No</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="tc"
+        value="{{tc}}"
+        placeholder="TC Kimlik No"
+      />
+      </p>
+    </div>
+  </div>
+  <br>
+  <div class="field">
+    <label class="label">Şifre</label>
+    <div class="control">
+      <input
+        class="input"
+        type="password"
+        id="password"
+        value="{{password}}"
+        placeholder="Şifre"
+      />
+    </div>
+  </div>
+  <br>
+  <div class="field">
+    <label class="label">Ad Soyad</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="name"
+        value="{{name}}"
+        placeholder="Ad Soyad"
+      />
+    </div>
+  </div>
+  <br>
+  <div class="field">
+    <label class="label">Telefon</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="phone"
+        value="{{phone}}"
+        placeholder="Telefon"
+      />
+    </div>
+  </div>
+  <br>
+  <div class="field">
+    <label class="label">Cinsiyet</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="gender"
+        value="{{gender}}"
+        placeholder="Cinsiyet"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Boy(cm)</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="user_height"
+        value="{{user_height}}"
+        placeholder="Boy"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Kilo(kg)</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="user_weight"
+        value="{{user_weight}}"
+        placeholder="Kilo"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:saveUser()"
+      >
+        <span>Kaydet</span>
+      </a>
+    </div>
+  </div>
+</div>
+{{/with}}
+
+<script>
+  var tc = '{{user.tc}}';
+  $('#pop').magnificPopup({ type: 'inline', midClick: true });
+  function saveUser() {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+    var tc = $('#tc').val();
+    var name = $('#name').val();
+    var phone = $('#phone').val();
+    var gender = $('#gender').val();
+    var password = $('#password').val();
+    var user_height = $('#user_height').val();
+    var user_weight = $('#user_weight').val();
+    var user = { tc, name, phone, gender, password, user_height, user_weight };
+    $.ajax({
+      url: '/users/' + tc,
+      data: JSON.stringify(user),
+      contentType: 'application/json',
+      type: 'PUT',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+</script>

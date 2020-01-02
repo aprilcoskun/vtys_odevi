@@ -1,9 +1,32 @@
 <div class="container">
   <section class="section columns">
     <div class="column">
-      <h1 class="title">
-        Yedekler
-      </h1>
+      <a class="button" href="javascript:getBackup()">Veritabanını Yedekle</a>
+        <a class="button" href="javascript:restoreBackup()">Yedekten Geri Yükle</a>
+
     </div>
   </section>
 </div>
+<script>
+  function getBackup(){
+    (new ldLoader({ root: ".full" })).on();
+    $.ajax({
+      url: '/backup/getbackup',
+      type: 'GET',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+
+  }
+  function restoreBackup(){
+    (new ldLoader({ root: ".full" })).on();
+    $.ajax({
+      url: '/backup/restorebackup',
+      type: 'GET',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+</script>

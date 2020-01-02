@@ -5,17 +5,38 @@
         id="new-user"
         class="button is-outlined is-info"
         data-mfp-src="#new-popup"
-        href="javascript:openNewUserModal()"
       >
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>
         <span>Yeni Kişi Ekle</span>
       </a>
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:exportPdf()"
+      >
+        <span>PDF olarak Kaydet</span>
+      </a>
       <br>
       <br>
-      <br>
-
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            id="search"
+            class="input"
+            type="search"
+            placeholder="İsime göre filtreleyin"
+          >
+        </div>
+        <div class="control">
+          <a
+            class="button is-info"
+            href="javascript:search()"
+          >
+            Filtrele
+          </a>
+        </div>
+      </div>
       <table class="table is-hoverable is-bordered is-fullwidth">
         <thead>
           <tr>
@@ -39,7 +60,7 @@
             <td>{{tc}}</td>
             <td>{{name}}</td>
             <td>{{phone}}</td>
-            <td>{{gender}}</td>
+            <td>{{_gender}}</td>
             <td>{{calculateAge}}</td>
             <td>{{user_height}}</td>
             <td>{{user_weight}}</td>
@@ -66,7 +87,6 @@
       </p>
     </div>
   </div>
-  <br>
   <div class="field">
     <label class="label">Ad Soyad</label>
     <div class="control">
@@ -78,7 +98,6 @@
       />
     </div>
   </div>
-  <br>
   <div class="field">
     <label class="label">Telefon</label>
     <div class="control">
@@ -90,7 +109,6 @@
       />
     </div>
   </div>
-  <br>
   <div class="field">
     <label class="label">Cinsiyet</label>
     <div class="control">
@@ -124,14 +142,30 @@
       />
     </div>
   </div>
-  <div class="field">
-    <div class="control">
-      <a
-        class="button is-outlined is-primary"
-        href="javascript:saveUser()"
-      >
-        <span>Kaydet</span>
-      </a>
+  <div class="columns">
+    <div class="column is-9">
+      <div class="field">
+        <div class="control">
+          <a
+            class="button is-outlined is-primary"
+            href="javascript:saveUser()"
+          >
+            <span>Kaydet</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        <div class="control">
+          <a
+            class="button is-outlined is-danger"
+            href="javascript:deleteUser()"
+          >
+            <span>Kullanıcıyı Sil</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -151,7 +185,17 @@
       </p>
     </div>
   </div>
-  <br>
+  <div class="field">
+    <label class="label">Şifre</label>
+    <div class="control">
+      <input
+        class="input"
+        type="password"
+        id="new-password"
+        placeholder="Şifre"
+      />
+    </div>
+  </div>
   <div class="field">
     <label class="label">Ad Soyad</label>
     <div class="control">
@@ -163,7 +207,6 @@
       />
     </div>
   </div>
-  <br>
   <div class="field">
     <label class="label">Telefon</label>
     <div class="control">
@@ -175,7 +218,16 @@
       />
     </div>
   </div>
-  <br>
+  <div class="field">
+    <label class="label">Doğum Tarihi</label>
+    <div class="control">
+      <input
+        class="input"
+        type="date"
+        id="new-birth-date"
+      >
+    </div>
+  </div>
   <div class="field">
     <label class="label">Cinsiyet</label>
     <div class="control">
@@ -187,7 +239,6 @@
       />
     </div>
   </div>
-  <br>
   <div class="field">
     <label class="label">Boy(cm)</label>
     <div class="control">
@@ -199,7 +250,6 @@
       />
     </div>
   </div>
-  <br>
   <div class="field">
     <label class="label">Kilo(kg)</label>
     <div class="control">
@@ -235,10 +285,6 @@
     $('#user_height').val(user.user_height);
     $('#user_weight').val(user.user_weight);
   }
-
-  function openNewUserModal() {
-  }
-
   function saveUser() {
     // opens loader
     (new ldLoader({ root: ".full" })).on();
@@ -250,7 +296,66 @@
     var user_height = $('#user_height').val();
     var user_weight = $('#user_weight').val();
     var user = { tc, name, phone, gender, user_height, user_weight };
-    console.log(currentUser);
+    $.ajax({
+      url: '/users/' + currentUser.tc,
+      data: JSON.stringify(user),
+      contentType: 'application/json',
+      type: 'PUT',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
   }
-  function saveNewUser() { }
+
+  function saveNewUser() {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+    var tc = $('#new-tc').val();
+    var name = $('#new-name').val();
+    var phone = $('#new-phone').val();
+    var gender = $('#new-gender').val();
+    var password = $('#new-password').val();
+    var birth_date = $('#new-birth-date').val();
+
+    var user_height = $('#new-user_height').val();
+    var user_weight = $('#new-user_weight').val();
+    var user = { tc, name, password, phone, birth_date, gender, user_height, user_weight };
+    $.ajax({
+      url: '/users',
+      data: JSON.stringify(user),
+      contentType: 'application/json',
+      type: 'POST',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+
+  function deleteUser() {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+    $.ajax({
+      url: '/users/' + currentUser.tc,
+      type: 'DELETE',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+  function search() {
+    var name = $('#search').val();
+    return location.href = '/users/searchByName/' + name;
+  }
+
+  function exportPdf() {
+    html2pdf(
+      $('.table').get(0),
+      {
+        margin: 4,
+        filename: 'users.pdf',
+        html2canvas: { dpi: 192 },
+        jsPDF: { orientation: 'landscape' }
+      }
+    );
+  }
 </script>

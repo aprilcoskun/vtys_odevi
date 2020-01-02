@@ -9,6 +9,7 @@ const backupRoute = require('./routes/backup');
 const trainersRoute = require('./routes/trainers');
 const exercisesRoute = require('./routes/exercises');
 const inventoryRoute = require('./routes/inventory');
+const calendarRoute = require('./routes/calendar');
 const app = express();
 
 mssql.connect({
@@ -40,6 +41,10 @@ app.engine(
     extname: '.hbs',
     helpers: {
       json: function () { return JSON.stringify(this);},
+      _gender: function () { return this.gender === 'E' ? 'Erkek' : 'Kadın' },
+      calcArrivalDate: function () { 
+        return new Date(this.arrival_date).toDateString()
+       },
       calculateAge: function getAge() {
         const today = new Date();
         const birthDate = new Date(this.birth_date);
@@ -60,10 +65,13 @@ app.use('/auth', authRoute);
 app.use('/users', usersRoute);
 app.use('/backup', backupRoute);
 app.use('/trainers', trainersRoute);
+app.use('/calendar', calendarRoute);
 app.use('/exercises', exercisesRoute);
 app.use('/inventory', inventoryRoute);
 
 app.get('/', async function(req, res) {
+  const result = await mssql.query`exec sp_main_page`;
+  console.log(result);
   res.render('index', { isAdmin: req.cookies['userType'] === 'trainer', isMain: true });
 });
 

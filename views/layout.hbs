@@ -9,6 +9,11 @@
   />
   <title>Gym</title>
   <link
+    rel="shortcut icon"
+    href="https://avatar.alpcoskun.com/april"
+  />
+
+  <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
   />
@@ -16,21 +21,6 @@
     defer
     src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
   ></script>
-  <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"
-  ></script>
-  <script src="https://www.gitcdn.xyz/repo/dimsemenov/Magnific-Popup/master/dist/jquery.magnific-popup.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/loadingio/ldLoader@v1.0.0/dist/ldld.min.js"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/gh/loadingio/ldLoader@v1.0.0/dist/ldld.min.css"
-  >
-  <link
-    rel="stylesheet"
-    href="https://www.gitcdn.xyz/repo/dimsemenov/Magnific-Popup/master/dist/magnific-popup.css"
-  >
   <style>
     .navbar {
       box-shadow: 0px .75px #888888;
@@ -56,7 +46,7 @@
   <nav class="navbar is-fixed-top">
     <div class="navbar-brand">
       <a class="navbar-item">
-        <img src="https://avatar.alpcoskun.com/furkan" />
+        <img src="https://avatar.alpcoskun.com/april" />
       </a>
       <a
         role="button"
@@ -113,6 +103,13 @@
           <span class="icon"><i class="far fa-calendar-alt"></i></span>
           <span>Takvim</span>
         </a>
+        <a
+          class="navbar-item {{#if isProfile}}is-active{{/if}}"
+          href="/users/profile"
+        >
+          <span class="icon"><i class="fas fa-user-circle"></i></span>
+          <span>Profil</span>
+        </a>
         {{/unless}}
         {{#if isAdmin}}
         <a
@@ -123,15 +120,8 @@
           <span>Envanter</span>
         </a>
         <a
-          class="navbar-item {{#if isProfile}}is-active{{/if}}"
-          href="/profile"
-        >
-          <span class="icon"><i class="fas fa-user-circle"></i></span>
-          <span>Profil</span>
-        </a>
-        <a
           class="navbar-item {{#if isSettings}}is-active{{/if}}"
-          href="/settings"
+          href="/backup"
         >
           <span class="icon"><i class="fas fa-cog"></i></span>
           <span>Ayarlar</span>
@@ -156,6 +146,33 @@
       </div>
     </div>
   </nav>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://www.gitcdn.xyz/repo/dimsemenov/Magnific-Popup/master/dist/jquery.magnific-popup.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://www.gitcdn.xyz/repo/dimsemenov/Magnific-Popup/master/dist/magnific-popup.css"
+  >
+  {{{body}}}
+  <script src="https://cdn.jsdelivr.net/gh/loadingio/ldLoader@v1.0.0/dist/ldld.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/loadingio/ldLoader@v1.0.0/dist/ldld.min.css"
+  >
+  <div
+    class="ldld full"
+    style="z-index: 9999;"
+  ></div>
+  <link
+    rel="stylesheet"
+    href="https://gitcdn.xyz/repo/Wikiki/bulma-calendar/master/dist/css/bulma-calendar.min.css"
+  >
+  <script src="https://gitcdn.xyz/repo/Wikiki/bulma-calendar/master/dist/js/bulma-calendar.min.js"></script>
+  <script
+    src="https://gitcdn.xyz/repo/aprilcoskun/veritabani_projesi/master/public/scripts/html2pdf.bundle.min.js"></script>
   <script>
     var navbar = $('#navbar');
     var burger = $('#burger');
@@ -185,11 +202,32 @@
     function logout() {
       showLoad();
       document.cookie = 'tc=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      location.href = '/login.html';
+      location.href = '/auth';
     }
+
+    var maxBirthDate = new Date();
+    var minBirthDate = new Date();
+    minBirthDate.setFullYear(new Date().getFullYear() - 65);
+    maxBirthDate.setFullYear(new Date().getFullYear() - 12);
+
+    bulmaCalendar.attach('[type="date"]', {
+      type: 'date',
+      dateFormat: 'DD/MM/YYYY',
+      showHeader: false,
+      showFooter: false,
+      maxDate: maxBirthDate,
+      minDate: minBirthDate
+    });
+
+    //setup ajax error handling
+    $.ajaxSetup({
+      error: function (x, status, error) {
+        (new ldLoader({ root: ".full" })).off();
+
+        alert("An error occurred: " + status + "\nError: " + x.statusText);
+      }
+    });
   </script>
-  {{{body}}}
-  <div class="ldld full" style="z-index: 9999;"></div>
 </body>
 
 </html>

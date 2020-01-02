@@ -1,10 +1,43 @@
 <div class="container">
   <section class="section columns">
     <div class="column">
-      <h1 class="title">
-        Egzersizler
-      </h1>
-      <table class="table is-hoverable">
+      <a
+        id="new-tool"
+        class="button is-outlined is-info"
+        data-mfp-src="#new-popup"
+      >
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>Yeni Egzersiz Ekle</span>
+      </a>
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:exportPdf()"
+      >
+        <span>PDF olarak Kaydet</span>
+      </a>
+      <br>
+      <br>
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            id="search"
+            class="input"
+            type="search"
+            placeholder="İsime göre filtreleyin"
+          >
+        </div>
+        <div class="control">
+          <a
+            class="button is-info"
+            href="javascript:search()"
+          >
+            Filtrele
+          </a>
+        </div>
+      </div>
+      <table class="table is-hoverable is-bordered is-fullwidth">
         <thead>
           <tr>
             <th>Ad</th>
@@ -16,10 +49,12 @@
         <tbody>
           {{#each exercises}}
           <tr class="pointy">
-            <td>this.name</td>
-            <td>this.description</td>
-            <td>this.set_size</td>
-            <td>this.tool_id</td>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            <td>{{set_size}}</td>
+            {{#each tools}}
+            <td>{{name}}</td>
+            {{/each}}
           </tr>
           {{/each}}
         </tbody>
@@ -27,3 +62,26 @@
     </div>
   </section>
 </div>
+<div
+  id="new-popup"
+  class="popup mfp-hide"
+>
+</div>
+
+<script>
+  function exportPdf() {
+    html2pdf(
+      $('.table').get(0),
+      {
+        margin: 4,
+        filename: 'users.pdf',
+        html2canvas: { dpi: 192 },
+        jsPDF: { orientation: 'landscape' }
+      }
+    );
+  }
+  function search() {
+    var name = $('#search').val();
+    return location.href = '/exercises/searchByName/' + name;
+  }
+</script>
