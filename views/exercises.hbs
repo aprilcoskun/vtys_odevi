@@ -48,7 +48,10 @@
         </thead>
         <tbody>
           {{#each exercises}}
-          <tr class="pointy">
+          <tr
+            class="pointy"
+            onclick="javascript:deleteE({{json}})"
+          >
             <td>{{name}}</td>
             <td>{{description}}</td>
             <td>{{set_size}}</td>
@@ -66,9 +69,63 @@
   id="new-popup"
   class="popup mfp-hide"
 >
+  <div class="field">
+    <label class="label">Ad</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-name"
+        placeholder="Ad"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Açıklama</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-description"
+        placeholder="Açıklama"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Set Sayısı</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="new-set_size"
+        placeholder="Set Sayısı"
+      />
+    </div>
+  </div>
+  <div class="select">
+    <select id="new-tool">
+      {{#each tools}}
+      <option value="{{id}}">{{name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <br>
+  <br>
+  <div class="field">
+    <div class="control">
+      <a
+        class="button is-outlined is-primary"
+        href="javascript:saveNew()"
+      >
+        <span>Kaydet</span>
+      </a>
+    </div>
+  </div>
 </div>
 
 <script>
+  $('#new-tool').magnificPopup({ type: 'inline', midClick: true });
+
   function exportPdf() {
     html2pdf(
       $('.table').get(0),
@@ -80,6 +137,38 @@
       }
     );
   }
+
+  function saveNew() {
+    (new ldLoader({ root: ".full" })).on();
+
+    var name = $('#new-name').val();
+    var description = $('#new-description').val();
+    var set_size = parseInt($('#new-set_size').val());
+    var tool_id = parseInt($('#new-tool').val());
+    var exercise = { name, description, set_size, tool_id };
+    $.ajax({
+      url: '/exercises',
+      data: JSON.stringify(exercise),
+      contentType: 'application/json',
+      type: 'POST',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+
+  function deleteE(exercise) {
+    // opens loader
+    (new ldLoader({ root: ".full" })).on();
+    $.ajax({
+      url: '/exercises/' + exercise.id,
+      type: 'DELETE',
+      success: function (data, status, xhr) {
+        location.reload();
+      }
+    });
+  }
+
   function search() {
     var name = $('#search').val();
     return location.href = '/exercises/searchByName/' + name;
