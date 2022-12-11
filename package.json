@@ -18,7 +18,7 @@
   "homepage": "https://github.com/aprilcoskun/vtys_odevi#readme",
   "dependencies": {
     "cookie-parser": "^1.4.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-handlebars": "^5.3.1",
     "morgan": "^1.9.1",
     "mssql": "^6.0.1"
